@@ -90,3 +90,8 @@ foo: !tag {}
 
     roundtrip_from_string(s);
 }
+
+#[test]
+fn non_specific_tag() {
+    roundtrip_from_string("!");
+}
