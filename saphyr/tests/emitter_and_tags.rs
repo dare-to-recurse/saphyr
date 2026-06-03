@@ -95,3 +95,8 @@ foo: !tag {}
 fn non_specific_tag() {
     roundtrip_from_string("!");
 }
+
+#[test]
+fn percent_encoded_tag() {
+    roundtrip_from_string("!%19");
+}
