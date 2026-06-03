@@ -124,7 +124,9 @@ impl Tag {
 
 impl Display for Tag {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        if self.handle == "!" {
+        if self.handle.is_empty() && self.suffix == "!" {
+            write!(f, "!")
+        } else if self.handle == "!" {
             write!(f, "!{}", self.suffix)
         } else {
             write!(f, "{}!{}", self.handle, self.suffix)
