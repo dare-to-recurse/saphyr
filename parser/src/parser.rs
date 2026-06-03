@@ -127,11 +127,26 @@ impl Display for Tag {
         if self.handle.is_empty() && self.suffix == "!" {
             write!(f, "!")
         } else if self.handle == "!" {
-            write!(f, "!{}", self.suffix)
+            f.write_str("!")?;
+            write_tag_suffix(f, &self.suffix)
         } else {
             write!(f, "{}!{}", self.handle, self.suffix)
         }
     }
+}
+
+fn write_tag_suffix(f: &mut core::fmt::Formatter<'_>, suffix: &str) -> core::fmt::Result {
+    for ch in suffix.chars() {
+        if crate::char_traits::is_tag_char(ch) && ch != '%' {
+            write!(f, "{ch}")?;
+        } else {
+            let mut bytes = [0; 4];
+            for byte in ch.encode_utf8(&mut bytes).as_bytes() {
+                write!(f, "%{byte:02X}")?;
+            }
+        }
+    }
+    Ok(())
 }
 
 impl<'input> Event<'input> {
