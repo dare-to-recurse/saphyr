@@ -90,3 +90,8 @@ foo: !tag {}
 
     roundtrip_from_string(s);
 }
+
+#[test]
+fn percent_encoded_tag() {
+    roundtrip_from_string("!%19");
+}
